@@ -1,0 +1,14 @@
+{
+  "name": "giraffe",
+  "version": "0.1.0",
+  "description": "Microservice for graph generation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Paladin and Archer",
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "gm": "^1.23.1"
+  }
+}
