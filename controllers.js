@@ -8,12 +8,13 @@ const IMG_PROP = {
     height: 800,
     origWidth: 800,
     origHeight: 800,
-    origFontSize: 35
+    origFontSize: 35,
+    dotRadius: 8
 };
 
 exports.behaviorGraph = (req, res) => {
     var startTime = new Date();
-    var gparams = parseParams(req.params.graphParams);
+    var gparams = parseBehaviorParams(req.params.graphParams);
     var imgProp = Object.assign({}, IMG_PROP);
 
     imgProp.width = imgProp.width * gparams.scale;
@@ -38,6 +39,8 @@ exports.behaviorGraph = (req, res) => {
         .fill("rgba(0,0,0, 0.5)")
         .drawPolygon(gparams.coords[0], gparams.coords[1], gparams.coords[2], gparams.coords[3],
             gparams.coords[4], gparams.coords[5], gparams.coords[6], gparams.coords[7])
+        .fuzz("1%")
+        .transparent("white")
         .toBuffer('PNG', (err, bfr) => {
             res.send(bfr);
             var endTime = new Date();
@@ -48,7 +51,7 @@ exports.behaviorGraph = (req, res) => {
 exports.traitGraph = (req, res) => {
     const origFontSize = 35;
     var startTime = new Date();
-    var gparams = parseParams2(req.params.graphParams);
+    var gparams = parseTraitParams(req.params.graphParams);
     console.log(gparams);
     var imgProp = Object.assign({}, IMG_PROP);
 
@@ -62,28 +65,81 @@ exports.traitGraph = (req, res) => {
     imgProp.wheelHeight = imgProp.wheelHeight * heightScalar;
     imgProp.wheelWidth = imgProp.wheelWidth * widthScalar;
     if (imgProp.origWidth !== imgProp.width || imgProp.origHeight !== imgProp.height) {
-        gparams.coords = translateCoords(imgProp, gparams.coords);
+        gparams.coords = translateCoords2(imgProp, gparams.coords);
     }
 
     var adjustedFontSize = origFontSize * heightScalar;
-    var dotRadius = 8;
+    var maskWidth = 100;
     gm('img/mbtiBackground.png')
         .resize(imgProp.wheelWidth, imgProp.wheelHeight)
         .borderColor("white")
         .border((imgProp.width-imgProp.wheelWidth)/2,(imgProp.height-imgProp.wheelHeight)/2)
-        .addLabels(imgProp)
         .stroke("rgba(0,0,0, 0.1)")
         .fill("rgba(0,0,0, 0.8)")
         .drawMultiDot(imgProp, gparams.coords)
+        .stroke("white")
+        .strokeWidth(maskWidth)
+        .fill("none")
+        .antialias(false)
+        .drawCircle(imgProp.width / 2, imgProp.height / 2 - 6, imgProp.width / 2 + imgProp.wheelWidth / 2 + maskWidth/2 - 20*widthScalar, imgProp.height / 2 - 6)
+        .addLabels(imgProp)
+        .fuzz("0.1%")
+        .transparent("white")
         //.drawCircle(gparams.coords[0][0], gparams.coords[0][1], gparams.coords[0][0]-dotRadius, gparams.coords[0][1])
         .toBuffer('PNG', (err, bfr) => {
             res.send(bfr);
             var endTime = new Date();
             console.log("elapsed:",endTime-startTime,"ms");
+            console.log(imgProp.width / 2, imgProp.height / 2, imgProp.width / 2 + imgProp.wheelWidth / 2 , imgProp.height);
+        });
+}
+exports.traitGraphNoLabels = (req, res) => {
+    const origFontSize = 35;
+    var startTime = new Date();
+    var gparams = parseTraitParams(req.params.graphParams);
+    var imgProp = Object.assign({}, IMG_PROP);
+
+    imgProp.width = imgProp.width * gparams.scale;
+    imgProp.height = imgProp.height * gparams.scale;
+
+    res.set('Content-Type', 'image/png');
+
+    var heightScalar = imgProp.height/imgProp.origHeight;
+    var widthScalar = imgProp.width/imgProp.origWidth;
+    imgProp.wheelHeight = imgProp.wheelHeight * heightScalar;
+    imgProp.wheelWidth = imgProp.wheelWidth * widthScalar;
+    if (imgProp.origWidth !== imgProp.width || imgProp.origHeight !== imgProp.height) {
+        gparams.coords = translateCoords2(imgProp, gparams.coords);
+    }
+    console.log(gparams.coords);
+
+    var adjustedFontSize = origFontSize * heightScalar;
+    var maskWidth = 100;
+    gm('img/mbtiBackground.png')
+        .resize(imgProp.wheelWidth, imgProp.wheelHeight)
+        .borderColor("white")
+        .border((imgProp.width-imgProp.wheelWidth)/2,(imgProp.height-imgProp.wheelHeight)/2)
+        .stroke("rgba(0,0,0, 0.1)")
+        .fill("rgba(0,0,0, 0.8)")
+        .drawMultiDot(imgProp, gparams.coords)
+        .stroke("white")
+        .strokeWidth(maskWidth)
+        .fill("none")
+        .antialias(false)
+        .drawCircle(imgProp.width / 2, imgProp.height / 2 - 6, imgProp.width / 2 + imgProp.wheelWidth / 2 + maskWidth/2 - 20*widthScalar, imgProp.height / 2 - 6)
+        .fuzz("0.1%")
+        .transparent("white")
+        .shave((imgProp.width - imgProp.wheelWidth) / 2, (imgProp.height - imgProp.wheelHeight) / 2)
+        //.drawCircle(gparams.coords[0][0], gparams.coords[0][1], gparams.coords[0][0]-dotRadius, gparams.coords[0][1])
+        .toBuffer('PNG', (err, bfr) => {
+            res.send(bfr);
+            var endTime = new Date();
+            console.log("elapsed:",endTime-startTime,"ms");
+            console.log(imgProp.width / 2, imgProp.height / 2, imgProp.width / 2 + imgProp.wheelWidth / 2 , imgProp.height);
         });
 }
 
-function parseParams(paramStr) {
+function parseBehaviorParams(paramStr) {
     var parsed = {
         coords: [],
         scale: 1
@@ -101,7 +157,8 @@ function parseParams(paramStr) {
 
     return parsed;
 }
-function parseParams2(paramStr) {
+
+function parseTraitParams(paramStr) {
     var parsed = {
         coords: [],
         scale: 1
@@ -120,13 +177,16 @@ function parseParams2(paramStr) {
             y: splt2[1]
         });
         switch (splt2.length) {
-            case 5:
-                parsed.coords[i].mark = splt2[4];
-            case 4:
-                parsed.coords[i].intensity = splt2[3].split('i').join('.');
-            case 3:
-                parsed.coords[i].radius = splt2[2];
-                break;
+        case 5:
+            parsed.coords[i].mark = splt2[4];
+        case 4:
+            parsed.coords[i].intensity = splt2[3].split('i').join('.');
+        case 3:
+            parsed.coords[i].radius = splt2[2];
+            break;
+        case 2:
+            parsed.coords[i].radius = IMG_PROP.dotRadius;
+            break;
         }
     }
 
@@ -141,6 +201,12 @@ gm.prototype.drawMultiDot = function (imgProp, dots) {
         if (dots[i].mark !== '1' && dots[i].intensity > 1) {
             this.stroke("rgba(0,0,0, 0.001)")
                 .fill("rgba(0,0,0, "+((parseFloat(dots[i].intensity)+1)/10)*0.5+")")
+                .drawCircle(dots[i].x, dots[i].y, parseFloat(dots[i].x)-dots[i].radius*0.8, dots[i].y);
+            console.log(dots[i].radius);
+        } else if ("undefined" === typeof dots[i].radius || "undefined" === typeof dots[i].intensity) {
+            console.log("aaaaaaaaaaaaaaaaaa", dots[i]);
+            this.stroke("rgba(0,0,0, 0.001)")
+                .fill("rgba(0,0,0, 0.8)")
                 .drawCircle(dots[i].x, dots[i].y, parseFloat(dots[i].x)-dots[i].radius*0.8, dots[i].y);
             console.log(dots[i].radius);
         }
@@ -163,6 +229,7 @@ gm.prototype.addLabels = function (imgProp) {
 
     this.font("Arial", adjustedFontSize)
         .stroke("rgba(0,0,0,0.1)")
+        .strokeWidth(1)
         .fill("rgba(0,0,0, 0.8)")
         .drawText(
             (imgProp.width/2) - (38*widthScalar),
@@ -225,13 +292,34 @@ gm.prototype.addLabels = function (imgProp) {
 
 function translateCoords(imgProp, coords) {
     var newCoords = [];
-    var heightScalar = imgProp.height / imgProp.origHeight;
-    var widthScalar = imgProp.width / imgProp.origWidth;
+    var heightScalar = imgProp.height / IMG_PROP.origHeight;
+    var widthScalar = imgProp.width / IMG_PROP.origWidth;
     for (var i = 0; i < coords.length; i++) {
         newCoords.push([
             coords[i][0]*widthScalar,
             coords[i][1]*heightScalar,
         ]);
     }
+    return newCoords;
+}
+function translateCoords2(imgProp, coords) {
+    var newCoords = [];
+    var heightScalar = imgProp.height / IMG_PROP.origHeight;
+    var widthScalar = imgProp.width / IMG_PROP.origWidth;
+    console.log("======================");
+    console.log("| widthScalar:",widthScalar);
+    console.log("| heightScalar:",widthScalar);
+    for (var i = 0; i < coords.length; i++) {
+        newCoords.push({
+            x: coords[i].x*widthScalar,
+            y: coords[i].y*heightScalar,
+            radius: coords[i].radius*heightScalar,
+            intensity: coords[i].intensity,
+            mark: coords[i].mark
+        });
+        console.log("| x:", coords[i].x,"->",coords[i].x*widthScalar);
+        console.log("| y:", coords[i].y,"->",coords[i].y*heightScalar);
+    }
+    console.log("======================");
     return newCoords;
 }
