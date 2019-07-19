@@ -228,8 +228,9 @@ gm.prototype.addLabels = function (imgProp) {
     var adjustedFontSize = imgProp.origFontSize * heightScalar;
 
     this.font("Arial", adjustedFontSize)
-        .stroke("rgba(0,0,0,0.1)")
-        .strokeWidth(1)
+        .antialias(false)
+        .stroke("rgba(101,101,101, 0.5)")
+        .strokeWidth(0.5)
         .fill("rgba(0,0,0, 0.8)")
         .drawText(
             (imgProp.width/2) - (38*widthScalar),
@@ -287,6 +288,7 @@ gm.prototype.addLabels = function (imgProp) {
             imgProp.height/2 + 6*widthScalar,
             "Balanced"
         )
+        .antialias(true)
     return this;
 }
 
