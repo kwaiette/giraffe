@@ -1,0 +1,36 @@
+#!/usr/bin/env groovy
+pipeline {
+	agent {
+		dockerfile {
+			filename "docker/jenkins/Dockerfile"
+			args "--entrypoint=''"
+		}
+	}
+	environment {
+		LC_ALL='en_US.UTF-8'
+		LANG='en_US.UTF-8'
+	}
+	stages {
+		stage('Install Dependencies') {
+			steps {
+				sh "npm i"
+				sh 'sleep 10s'
+			}
+		}
+		stage('Test') {
+			steps {
+				echo "Run tests"
+				//FIXME
+				sh 'sleep 10s'
+			}
+		}
+		stage('Deploy') {
+			steps {
+				sh "tar -czf /tmp/giraffe.tar.gz ."
+				sh "scp -r -o StrictHostKeyChecking=no -i /home/.ssh/rigel-alpha.pem /tmp/giraffe.tar.gz ec2-user@stage.developerlevel.com:/home/ec2-user/giraffe/pipeline/prod/"
+				sh "ssh -o StrictHostKeyChecking=no -i /home/.ssh/rigel-alpha.pem ec2-user@stage.developerlevel.com 'cd giraffe && /usr/bin/git pull'"
+				sh "ssh -o StrictHostKeyChecking=no -i /home/.ssh/rigel-alpha.pem ec2-user@stage.developerlevel.com source /home/ec2-user/giraffe/pipeline/prod/docker-build.sh"
+			}
+		}
+	}
+}
