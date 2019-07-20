@@ -1,0 +1,21 @@
+version: '3'
+services:
+  grf:
+    build: .
+    user: node
+    working_dir: /usr/src/app
+    environment:
+      - NODE_ENV=production
+    ports:
+      - '3100:3100'
+    extra_hosts:
+      - 'serverhost:172.17.0.1'
+    command: ['npm', 'start']
+    networks:
+      proxy-net:
+        aliases:
+          - giraffe
+networks:
+  proxy-net:
+    external:
+      name: devlvl_net
