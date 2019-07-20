@@ -2,7 +2,7 @@
 pipeline {
 	agent {
 		dockerfile {
-			filename "docker/jenkins/Dockerfile"
+			filename "pipeline/Dockerfile"
 			args "--entrypoint=''"
 		}
 	}
