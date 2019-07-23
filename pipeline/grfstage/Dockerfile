@@ -9,14 +9,14 @@ RUN apk update && apk upgrade && \
 
 WORKDIR .fonts
 RUN wget https://www.paratype.ru/uni/public/PTSans.zip \
-      -O .fonts/PTSans.zip &&
-    cd .fonts &&
-	unzip PTSans.zip &&
-	cp -rfv .fonts /usr/share/fonts &&
-	cd /usr/share/fonts/ &&
-	sudo mv .fonts/ pt_sans/ &&
-	cd pt_sans &&
-	fc-cache -fv &&
+      -O .fonts/PTSans.zip && \
+    cd .fonts && \
+	unzip PTSans.zip && \
+	cp -rfv .fonts /usr/share/fonts && \
+	cd /usr/share/fonts/ && \
+	sudo mv .fonts/ pt_sans/ && \
+	cd pt_sans && \
+	fc-cache -fv && \
 	fc-list
 
 WORKDIR /usr/src/app/
