@@ -227,7 +227,7 @@ gm.prototype.addLabels = function (imgProp) {
     var widthScalar = imgProp.width / imgProp.origWidth;
     var adjustedFontSize = imgProp.origFontSize * heightScalar;
 
-    this.font("Arial", adjustedFontSize)
+    this.font("Arial, sans-serif;", adjustedFontSize)
         .antialias(false)
         .stroke("rgba(101,101,101, 0.5)")
         .strokeWidth(0.5)
