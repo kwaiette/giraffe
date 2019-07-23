@@ -1,7 +1,7 @@
 FROM node:8.15.0-alpine
 LABEL maintainer "support@paladinarcher.com"
 
-ENV PACKAGES imagemagick wget unzip fc-list
+ENV PACKAGES imagemagick wget unzip fontconfig
 
 RUN apk update && apk upgrade && \
 	apk add $PACKAGES --no-cache && \
@@ -11,6 +11,7 @@ WORKDIR .fonts
 RUN wget https://www.paratype.ru/uni/public/PTSans.zip \
       -O .fonts/PTSans.zip && \
     cd .fonts && \
+	pwd && ls -l && \
 	unzip PTSans.zip && \
 	cp -rfv .fonts /usr/share/fonts && \
 	cd /usr/share/fonts/ && \
