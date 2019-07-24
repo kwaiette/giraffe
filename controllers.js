@@ -75,7 +75,7 @@ exports.traitGraph = (req, res) => {
         .borderColor("white")
         .border((imgProp.width-imgProp.wheelWidth)/2,(imgProp.height-imgProp.wheelHeight)/2)
         .stroke("rgba(0,0,0, 0.1)")
-        .fill("rgba(0,0,0, 0.8)")
+        .fill("rgba(0,0,0, 1)")
         .drawMultiDot(imgProp, gparams.coords)
         .stroke("white")
         .strokeWidth(maskWidth)
