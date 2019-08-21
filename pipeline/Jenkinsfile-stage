@@ -27,9 +27,9 @@ pipeline {
 		stage('Deploy') {
 			steps {
 				sh "tar -czf /tmp/giraffe.tar.gz ."
-				sh "scp -r -o StrictHostKeyChecking=no -i /home/.ssh/rigel-alpha.pem /tmp/giraffe.tar.gz ec2-user@stage.developerlevel.com:/home/ec2-user/giraffe/pipeline/grfstage/"
-				sh "ssh -o StrictHostKeyChecking=no -i /home/.ssh/rigel-alpha.pem ec2-user@stage.developerlevel.com 'cd giraffe && /usr/bin/git pull'"
-				sh "ssh -o StrictHostKeyChecking=no -i /home/.ssh/rigel-alpha.pem ec2-user@stage.developerlevel.com source /home/ec2-user/giraffe/pipeline/grfstage/docker-build.sh"
+				sh "scp -r -o StrictHostKeyChecking=no -i /home/.ssh/rigel-alpha.pem /tmp/giraffe.tar.gz ec2-user@stage.developerlevel.com:/home/ec2-user/src/giraffe/pipeline/grfstage/"
+				sh "ssh -o StrictHostKeyChecking=no -i /home/.ssh/rigel-alpha.pem ec2-user@stage.developerlevel.com 'cd src/giraffe && /usr/bin/git pull'"
+				sh "ssh -o StrictHostKeyChecking=no -i /home/.ssh/rigel-alpha.pem ec2-user@stage.developerlevel.com source /home/ec2-user/src/giraffe/pipeline/grfstage/docker-build.sh"
 			}
 		}
 	}
