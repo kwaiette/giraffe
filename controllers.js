@@ -288,7 +288,8 @@ gm.prototype.addLabels = function (imgProp) {
             imgProp.height/2 + 6*widthScalar,
             "Balanced"
         )
-        .antialias(true)
+        // .antialias(true) // turning this to false fixed the fuzzy text
+        .antialias(false)
     return this;
 }
 
