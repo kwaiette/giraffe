@@ -12,6 +12,11 @@ const IMG_PROP = {
     dotRadius: 8
 };
 
+exports.healthCheck = (req, res) => {
+    res.statusCode = 200;
+    res.end();
+};
+
 exports.behaviorGraph = (req, res) => {
     var startTime = new Date();
     var gparams = parseBehaviorParams(req.params.graphParams);
