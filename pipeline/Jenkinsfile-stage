@@ -40,6 +40,7 @@ pipeline {
 				//sh "cat reports/report.xml"
 
 				sh 'npm install nyc'
+				sh 'npm install mocha'
 				echo 'Istanbul installed'
 				sh 'set +e' // this should help Jenkins not crash
 				sh 'npm run coverage:unit || true'
