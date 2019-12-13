@@ -37,10 +37,10 @@ pipeline {
 				'''
 				//sh "cat reports/report.xml"
 
-				sh '/usr/local/bin/meteor npm install nyc'
+				sh 'npm install nyc'
 				echo 'Istanbul installed'
 				sh 'set +e' // this should help Jenkins not crash
-				sh '/usr/local/bin/meteor npm run coverage:unit || true'
+				sh 'npm run coverage:unit || true'
 				sh 'set -e' // this should help Jenkins not crash
 				echo 'coverage:unit script ran'
                 // middle of xml report tags
