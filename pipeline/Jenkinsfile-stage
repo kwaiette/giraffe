@@ -25,7 +25,10 @@ pipeline {
 				}
 				//echo "${env.JUNIT_REPORT_PATH}" 
 
-				sh "npm run coverage:unit"
+				sh '''
+					npm install nyc
+					npm run coverage:unit
+				'''
 
                 // beggining of xml report tags
 				sh "cd $WORKSPACE"
