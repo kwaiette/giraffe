@@ -134,5 +134,13 @@ pipeline {
 //				sh "ssh -o StrictHostKeyChecking=no -i /home/.ssh/rigel-alpha.pem ec2-user@stage.developerlevel.com source /home/ec2-user/src/giraffe/pipeline/grfstage/docker-build.sh"
 //			}
 //		}
+	}    
+	post {
+        always {
+            // sh "cat ${env.JUNIT_REPORT_PATH}"
+            // echo "${env.JUNIT_REPORT_PATH}"
+            junit "${env.JUNIT_REPORT_PATH}"
+        }
 	}
+
 }
