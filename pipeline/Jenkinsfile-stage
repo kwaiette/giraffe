@@ -112,7 +112,7 @@ pipeline {
 					if [ "$failingTest" = "true" ] 
 					then
                         echo "failing the build because Istanbul is below 80%"
-						#false
+						false
                     else
                         echo "Istanbul coverage is above 80%"
 					fi
