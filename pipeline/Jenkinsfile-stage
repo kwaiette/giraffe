@@ -138,7 +138,7 @@ pipeline {
 	post {
         always {
             // sh "cat ${env.JUNIT_REPORT_PATH}"
-            // echo "${env.JUNIT_REPORT_PATH}"
+            echo "${env.JUNIT_REPORT_PATH}"
             junit "${env.JUNIT_REPORT_PATH}"
         }
 	}
