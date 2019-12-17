@@ -12,6 +12,11 @@ const IMG_PROP = {
     dotRadius: 8
 };
 
+exports.healthCheck = (req, res) => {
+    res.statusCode = 200;
+    res.end();
+};
+
 exports.behaviorGraph = (req, res) => {
     var startTime = new Date();
     var gparams = parseBehaviorParams(req.params.graphParams);
@@ -80,7 +85,8 @@ exports.traitGraph = (req, res) => {
         .stroke("white")
         .strokeWidth(maskWidth)
         .fill("none")
-        .antialias(false)
+        .antialias(true)
+        // .antialias(false)
         .drawCircle(imgProp.width / 2, imgProp.height / 2 - 6, imgProp.width / 2 + imgProp.wheelWidth / 2 + maskWidth/2 - 20*widthScalar, imgProp.height / 2 - 6)
         .addLabels(imgProp)
         .fuzz("0.1%")
@@ -125,7 +131,8 @@ exports.traitGraphNoLabels = (req, res) => {
         .stroke("white")
         .strokeWidth(maskWidth)
         .fill("none")
-        .antialias(false)
+        .antialias(true)
+        // .antialias(false)
         .drawCircle(imgProp.width / 2, imgProp.height / 2 - 6, imgProp.width / 2 + imgProp.wheelWidth / 2 + maskWidth/2 - 20*widthScalar, imgProp.height / 2 - 6)
         .fuzz("0.1%")
         .transparent("white")
@@ -228,7 +235,8 @@ gm.prototype.addLabels = function (imgProp) {
     var adjustedFontSize = imgProp.origFontSize * heightScalar;
 
     this.font("Arial, sans-serif;", adjustedFontSize)
-        .antialias(false)
+        .antialias(true)
+        // .antialias(false)
         .stroke("rgba(101,101,101, 0.5)")
         .strokeWidth(0.5)
         .fill("rgba(0,0,0, 0.8)")

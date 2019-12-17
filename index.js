@@ -13,4 +13,6 @@ app.get('/grf/traits/:graphParams', controllers.traitGraph);
 
 app.get('/grf/traitsnl/:graphParams', controllers.traitGraphNoLabels);
 
+app.get('/grf/healthCheck/', controllers.healthCheck);
+
 app.listen(port, () => console.log(`Giraffe microservice listening on port ${port}!`))
