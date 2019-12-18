@@ -72,10 +72,10 @@ pipeline {
                             #echo "true" | ./failingTestVariableFileIstanbul
                             echo "true" >> ./failingTestVariableFileIstanbul
 
-							echo "      <testcase classname=${qt}Istanbul Coverage$qt $myName time=${qt}0$qt status=${qt}Failed$qt>" >> ./reports/report.xml
-							echo '			<failure message="Coverage Percentage is below 80%"></failure>' >> ./reports/report.xml
-							echo "			<system-out><![CDATA[$1 $2]]></system-out>" >> ./reports/report.xml
-							echo '		</testcase>' >> ./reports/report.xml
+							#echo "      <testcase classname=${qt}Istanbul Coverage$qt $myName time=${qt}0$qt status=${qt}Failed$qt>" >> ./reports/report.xml
+							#echo '			<failure message="Coverage Percentage is below 80%"></failure>' >> ./reports/report.xml
+							#echo "			<system-out><![CDATA[$1 $2]]></system-out>" >> ./reports/report.xml
+							#echo '		</testcase>' >> ./reports/report.xml
 						elif [ "$myReg" = "" ];
 						then
 							echo "MYREG is empty"
