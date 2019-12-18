@@ -32,28 +32,13 @@ pipeline {
 					rm -rf reports
 					mkdir reports
 					touch ./reports/report.xml
-					#echo '<testsuites name="Mocha Tests">' >> ./reports/report.xml
-					#echo '	<testsuite name="For Jenkins" tests="3" errors="0" failures="0" skipped="0" timestamp="2019-11-26T21:32:43" time="0.004">' >> ./reports/report.xml
-
-
-					echo '<?xml version="1.0" encoding="UTF-8"?>' >> ./reports/report.xml
-echo '<testsuites name="Mocha Tests" time="10.007000000000001" tests="3" failures="2" skipped="1">' >> ./reports/report.xml
-  echo '<testsuite name="Root Suite.API - token &amp;&amp; apikey" timestamp="2019-06-12T06:14:07" tests="3" file="/home/test/mocha/test.js" failures="2" time="10.007000000000001" skipped="1">' >> ./reports/report.xml
-    echo '<testcase name="/rest/login/ should return &quot;token&quot;" time="10.005" classname="API - token &amp;&amp; apikey">' >> ./reports/report.xml
-      echo '<failure message="Timeout of 10000ms exceeded. For async tests and hooks, ensure &quot;done()&quot; is called; if returning a Promise, ensure it resolves. (/home/test/mocha/test.js)" type="Error">' >> ./reports/report.xml
-        echo '<![CDATA[Error: Timeout of 10000ms exceeded. For async tests and hooks, ensure "done()" is called; if returning a Promise, ensure it resolves. (/home/test/mocha/test.js)]]>' >> ./reports/report.xml
-      echo '</failure>' >> ./reports/report.xml
-    echo '</testcase>' >> ./reports/report.xml
-  echo '</testsuite>' >> ./reports/report.xml
-echo '</testsuites>' >> ./reports/report.xml
-
-
+					echo '<testsuites name="Mocha Tests">' >> ./reports/report.xml
+					echo '	<testsuite name="For Jenkins" tests="3" errors="0" failures="0" skipped="0" timestamp="2019-11-26T21:32:43" time="0.004">' >> ./reports/report.xml
 					pwd
 					cat ./reports/report.xml
 				'''
 				//sh "cat reports/report.xml"
 
-/*
 				sh 'npm install nyc'
 				sh 'npm install mocha'
 				echo 'Istanbul installed'
@@ -132,7 +117,6 @@ echo '</testsuites>' >> ./reports/report.xml
                         echo "Istanbul coverage is above 80%"
 					fi
 				'''
-*/
             }
 		}
 		stage('Test') {
