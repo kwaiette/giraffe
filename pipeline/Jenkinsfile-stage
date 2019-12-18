@@ -53,6 +53,7 @@ echo '</testsuites>' >> ./reports/report.xml
 				'''
 				//sh "cat reports/report.xml"
 
+/*
 				sh 'npm install nyc'
 				sh 'npm install mocha'
 				echo 'Istanbul installed'
@@ -131,6 +132,7 @@ echo '</testsuites>' >> ./reports/report.xml
                         echo "Istanbul coverage is above 80%"
 					fi
 				'''
+*/
             }
 		}
 		stage('Test') {
