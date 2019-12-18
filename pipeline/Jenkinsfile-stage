@@ -32,8 +32,8 @@ pipeline {
 					rm -rf reports
 					mkdir reports
 					touch ./reports/report.xml
-					echo '<testsuites name="Mocha Tests">' >> ./reports/report.xml
-					echo '	<testsuite name="For Jenkins" tests="3" errors="0" failures="0" skipped="0" timestamp="2019-11-26T21:32:43" time="0.004">' >> ./reports/report.xml
+					#echo '<testsuites name="Mocha Tests">' >> ./reports/report.xml
+					#echo '	<testsuite name="For Jenkins" tests="3" errors="0" failures="0" skipped="0" timestamp="2019-11-26T21:32:43" time="0.004">' >> ./reports/report.xml
 
 
 					echo '<?xml version="1.0" encoding="UTF-8"?>' >> ./reports/report.xml
