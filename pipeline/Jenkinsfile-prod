@@ -135,5 +135,12 @@ pipeline {
 				sh "ssh -o StrictHostKeyChecking=no -i /home/.ssh/prod-instance.pem ec2-user@grf.developerlevel.com source /home/ec2-user/src/giraffe/pipeline/grfprod/docker-build.sh"
 			}
 		}
+		post {
+    	    always {
+    	        sh "cat ${env.JUNIT_REPORT_PATH}"
+    	        echo "${env.JUNIT_REPORT_PATH}"
+    	        junit "${env.JUNIT_REPORT_PATH}"
+    	    }
+		}
 	}
 }
